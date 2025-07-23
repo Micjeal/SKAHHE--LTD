@@ -1,22 +1,30 @@
-# SKAHHE LTD
+# SKAHHE Travel Care Uganda Ltd
 
 ## Project Overview
-Welcome to the official repository for SKAHHE LTD's website. This project serves as the digital presence for SKAHHE LTD, featuring a modern, responsive web interface.
+
+Welcome to the official repository for SKAHHE Travel Care Uganda Ltd's website. This project serves as the digital presence for our premium car hire and tour services, featuring a modern, responsive web interface with an interactive chatbot for customer support.
 
 ## Features
-- **Responsive Design**: Optimized for all device sizes
-- **Interactive Chatbot**: JavaScript-powered chatbot for user engagement
-- **Modern UI/UX**: Clean and professional interface built with HTML5 and CSS3
+
+- **Responsive Design**: Optimized for all device sizes and screen resolutions
+- **Interactive Chatbot**: JavaScript-powered virtual assistant for instant customer support
+- **Modern UI/UX**: Clean, professional interface built with HTML5 and CSS3
+- **Vehicle Showcase**: Interactive display of our premium fleet with detailed specifications
 - **Fast Performance**: Optimized assets and code for quick loading times
+- **Secure Contact**: Direct communication channels including phone, email, and WhatsApp
 
 ## Technologies Used
+
 - **Frontend**:
-  - HTML5
-  - CSS3 (with modern features like Flexbox/Grid)
-  - JavaScript (ES6+)
+  - HTML5 (Semantic markup for better accessibility)
+  - CSS3 (Flexbox, Grid, and modern animations)
+  - JavaScript (ES6+ with async/await for better async handling)
+  - Responsive Design (Mobile-first approach)
+  - Web Accessibility (ARIA labels and semantic HTML)
 
 ## Project Structure
-```
+
+```text
 SKAHHE LTD/
 ├── assets/
 │   ├── js/

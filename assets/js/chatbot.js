@@ -22,12 +22,11 @@ document.addEventListener('DOMContentLoaded', function() {
         email: 'skahhe@gmail.com',
         whatsapp: '+256 775 346 164',
         address: 'Plot 123, Main Street, Kampala, Uganda',
-        website: 'www.skahhetravel.com'
+        website: 'https://skahhetravels.netlify.app/'
     };
 
-    // Google Custom Search API credentials
-    const API_KEY = 'AIzaSyB30JqhyK4uOac6XVG3O3AQKKIn0s-vU8Q'; // Replace with your Google API key
-    const CSE_ID = 'YOUR_CSE_ID';   // Replace with your Custom Search Engine ID
+    // Google Custom Search API credentials should be handled on the server-side
+    // For now, we'll use a simplified response
 
     // Toggle chat widget
     chatToggle.addEventListener('click', toggleChat);
@@ -82,29 +81,11 @@ document.addEventListener('DOMContentLoaded', function() {
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    // Perform web search using Google Custom Search API
+    // Perform web search
     async function performWebSearch(query) {
-        try {
-            const response = await fetch(
-                `https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CSE_ID}&q=${encodeURIComponent(query)}`
-            );
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const data = await response.json();
-            if (data.items && data.items.length > 0) {
-                let result = 'Here are some search results:\n\n';
-                data.items.slice(0, 3).forEach((item, index) => {
-                    result += `${index + 1}. ${item.title}\n${item.snippet}\nLink: ${item.link}\n\n`;
-                });
-                return result;
-            } else {
-                return "Sorry, I couldn't find any results for your search. Try rephrasing your query!";
-            }
-        } catch (error) {
-            console.error('Error fetching search results:', error);
-            return "Sorry, there was an issue performing the web search. Please try again later.";
-        }
+        // Instead of making direct API calls from frontend, you should implement this on the server-side
+        // For now, we'll return a helpful message
+        return `I can't perform web searches directly. For more information, please contact us at ${contacts.email} or call ${contacts.phone}.`;
     }
 
     // Generate bot response based on user input
