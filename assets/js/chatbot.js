@@ -25,8 +25,8 @@ document.addEventListener('DOMContentLoaded', function() {
         website: 'https://skahhetravels.netlify.app/'
     };
 
-    // Google Custom Search API credentials should be handled on the server-side
-    // For now, we'll use a simplified response
+    // Backend API configuration
+    const API_BASE_URL = 'http://localhost:5000'; // Update this in production to your actual backend URL
 
     // Toggle chat widget
     chatToggle.addEventListener('click', toggleChat);
@@ -81,11 +81,39 @@ document.addEventListener('DOMContentLoaded', function() {
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    // Perform web search
+    // Perform web search using our backend API with Gemini
     async function performWebSearch(query) {
-        // Instead of making direct API calls from frontend, you should implement this on the server-side
-        // For now, we'll return a helpful message
-        return `I can't perform web searches directly. For more information, please contact us at ${contacts.email} or call ${contacts.phone}.`;
+        try {
+            const response = await fetch('http://localhost:5000/api/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: query
+                })
+            });
+
+            const data = await response.json();
+            
+            // Check for API errors
+            if (!response.ok) {
+                console.error('Search API error:', data.error || 'Unknown error');
+                return `I'm having trouble with the search right now. ${data.error || 'Please try again later.'} If the problem persists, you can contact us directly at ${contacts.email} or ${contacts.phone}.`;
+            }
+            
+            // Return the AI response from Gemini
+            if (data.aiResponse) {
+                return data.aiResponse;
+            }
+            
+            // Fallback response if no AI response is available
+            return `I couldn't process your query about "${query}" at the moment. Could you try rephrasing your question or ask something else?`;
+            
+        } catch (error) {
+            console.error('Search error:', error);
+            return `I'm having trouble connecting to the search service right now. This might be a temporary issue. You can try again in a few moments or contact us directly at ${contacts.email} or ${contacts.phone} for assistance.`;
+        }
     }
 
     // Generate bot response based on user input
@@ -94,22 +122,48 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Greetings
         if (message.includes('hi') || message.includes('hello') || message.includes('hey')) {
-            return "Hello! Welcome to Skahhe Travel Care. How can I assist you today? Ask about our cars, services, contact details, or search for travel information!";
+            return "Hello! Welcome to Skahhe Travel Care. How can I assist you today? You can ask about our cars, services, contact details, or search for any travel information!";
+        }
+        
+        // Check if the message is a search query
+        const searchTriggers = ['search', 'find', 'look up', 'information about', 'tell me about', 'list', 'show me', 'what cars'];
+        const isSearchQuery = searchTriggers.some(trigger => message.includes(trigger));
+        
+        // Check if it's a car-related query
+        const carTriggers = ['car', 'vehicle', 'suv', '4x4', 'sedan', 'van', 'coaster', 'hiace', 'prado', 'land cruiser'];
+        const isCarQuery = carTriggers.some(trigger => message.includes(trigger));
+        
+        // Handle car listing requests
+        if (isCarQuery || message.includes('list cars') || message.includes('available cars') || message.includes('vehicles')) {
+            try {
+                const searchQuery = `List 5-7 popular cars for hire in Uganda with their types and average daily rates in USD. Focus on common vehicles used for tourism and business travel.`;
+                const geminiResponse = await performWebSearch(searchQuery);
+                return geminiResponse || "I can help you find the perfect vehicle for your needs in Uganda. Could you be more specific about the type of vehicle you're looking for? (e.g., SUVs, sedans, vans, 4x4s)";
+            } catch (error) {
+                console.error('Error getting car list:', error);
+                // Fallback to static car list if Gemini is unavailable
+                return "Here are some of our popular vehicles for hire in Uganda:\n\n" +
+                "1. Toyota Land Cruiser (4x4 SUV) - $120-150/day\n" +
+                "2. Toyota Prado TX (Luxury SUV) - $100-130/day\n" +
+                "3. Toyota Hiace (14-seater van) - $80-100/day\n" +
+                "4. Toyota RAV4 (Mid-size SUV) - $60-80/day\n" +
+                "5. Toyota Corolla (Sedan) - $40-60/day\n\n" +
+                "Would you like more information about any of these vehicles or need help choosing the right one for your trip?";
+            }
+        }
+        
+        // Handle general search queries
+        if (isSearchQuery) {
+            // Extract the actual search query
+            const searchQuery = message.replace(new RegExp(searchTriggers.join('|'), 'i'), '').trim();
+            if (searchQuery) {
+                return await performWebSearch(searchQuery);
+            }
         }
         
         // About the company
         if (message.includes('about') || message.includes('who are you') || message.includes('what do you do')) {
             return "Skahhe Travel Care is a premium car hire and tour company based in Uganda. We offer a wide range of vehicles and tour packages to make your travel experience exceptional.";
-        }
-        
-        // List all cars
-        if (message.includes('list cars') || message.includes('available cars') || message.includes('vehicles')) {
-            let response = "Available vehicles at Skahhe Travel Care:\n\n";
-            cars.forEach(car => {
-                response += `${car.name} (${car.type})\n- Price: $${car.pricePerDay}/day\n- Features: ${car.features}\n\n`;
-            });
-            response += "Would you like to book any of these vehicles?";
-            return response;
         }
         
         // Car types
@@ -160,7 +214,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (message.includes('search') || message.includes('find') || message.includes('look up')) {
             const query = message.replace(/(search|find|look up)/i, '').trim();
             if (query) {
-                return await performWebSearch(query + ' site:*.ug Uganda travel');
+                // Return a promise that will be resolved with the search results
+                return performWebSearch(query + ' site:*.ug Uganda travel')
+                    .catch(error => {
+                        console.error('Search failed:', error);
+                        return "I'm having trouble with the search right now. Please try again later or contact us directly for assistance.";
+                    });
             }
             return "Please specify what you'd like to search for, e.g., 'Search for tourist attractions in Uganda' or 'Find hotels in Kampala'.";
         }

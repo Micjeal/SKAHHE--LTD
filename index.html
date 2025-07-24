@@ -15,9 +15,7 @@
     <header>
         <div class="container header-container">
             <div class="logo">
-                <div class="logo-circle">
-                    <span>SK</span>
-                </div>
+                <img src="images/logo.jpg" alt="Skahhe Travel Care Logo" class="logo-img">
                 <div class="logo-text">Skahhe <span>Travel Care</span></div>
             </div>
             
@@ -29,6 +27,7 @@
                 <ul id="navMenu">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#services">Services</a></li>
+                    <li><a href="#about">About Us</a></li>
                     <li><a href="#fleet">Our Fleet</a></li>
                     <li><a href="#tours">Tours</a></li>
                     <li><a href="#testimonials">Testimonials</a></li>
@@ -41,11 +40,35 @@
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="hero-content">
-            <h1>Your Journey, Our Priority</h1>
-            <p>Trusted Rides Across Uganda with Skahhe Travel Care - Safe, Clean & Reliable Transportation Solutions Since 2016</p>
+            <h1>Skahhe Travel Care</h1>
+            <p>'The Solution You Deserve'</p>
             <div class="hero-btns">
                 <a href="#booking" class="btn">Book a Vehicle Now</a>
                 <a href="#tours" class="btn btn-secondary">Explore Tours</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>About Us</h2>
+                <p>Learn more about Skahhe Travel Care</p>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-img">
+                    <img src="images/teamleader.jpg" alt="About Us">
+                </div>
+                <div class="about-text">
+                    <h3>Skahhe Travel Care (U) Ltd</h3>
+                    <p>Skahhe Travel Care (U) Ltd is an indigenous transport company in Uganda. The company has been in the transportation business for over 7 years.</p>
+                    <p>SKAHHE understands the importance of having a clean, safe, well maintained and functional vehicle. The company have an extensive fleet of vehicles and able to meet the different needs of our clientele.</p>
+                    <p>The team of drivers are professional and reliable with experience driving around Kampala as well as upcountry. Skahhe travel care provides services for different organizations including international NGOs, local NGOs and government institutions.</p>
+                    <p>The company specializes in provision of luxury air conditioned Vans (Drones/super custom), 4x4 vehicles (station wagons), Double cabins pickup, Coasters and saloon cars. The company cars are fully comprehensively insured and installed with GPS vehicle tracking device.</p>
+                    <p>SKAHHE is open to doing business with you by giving you safe travels and quality services. The company team is available for a more detailed interaction and would be privileged to have you/organization as one of our valued clientele.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -199,105 +222,65 @@
                 </div>
             </div>
             
-            <div class="filters">
-                <button class="filter-btn active">All Vehicles</button>
-                <button class="filter-btn">SUVs & 4x4s</button>
-                <button class="filter-btn">Saloon Cars</button>
-                <button class="filter-btn">Vans & Minibuses</button>
-                <button class="filter-btn">Coasters</button>
-            </div>
-            
-            <div class="fleet-grid">
-                <div class="vehicle-card" data-vehicle-type="suv">
-                    <div class="vehicle-img" style="background-image: url('images/Toyota Land Cruiser Prado.jpeg');"></div>
-                    <div class="vehicle-details">
-                        <h3>Toyota Land Cruiser Prado</h3>
-                        <div class="vehicle-specs">
-                            <div class="spec-item">
-                                <i class="fas fa-users"></i>
-                                <span>7 Passengers</span>
+            <div class="fleet-layout">
+                <div class="vehicle-list">
+                    <div class="filters">
+                        <button class="filter-btn active">All Vehicles</button>
+                        <button class="filter-btn">SUVs & 4x4s</button>
+                        <button class="filter-btn">Saloon Cars</button>
+                        <button class="filter-btn">Vans & Minibuses</button>
+                        <button class="filter-btn">Coasters</button>
+                    </div>
+                    
+                    <ul class="vehicle-list-items">
+                        <li class="vehicle-list-item active" data-vehicle="prado">
+                            <h3>Toyota Land Cruiser Prado</h3>
+                            <div class="vehicle-specs">
+                                <span><i class="fas fa-users"></i> 7 Passengers</span>
+                                <span><i class="fas fa-snowflake"></i> A/C</span>
+                                <span><i class="fas fa-gas-pump"></i> Diesel</span>
+                                <span class="price">UGX 350,000 / day</span>
                             </div>
-                            <div class="spec-item">
-                                <i class="fas fa-snowflake"></i>
-                                <span>A/C</span>
+                        </li>
+                        
+                        <li class="vehicle-list-item" data-vehicle="super-custom">
+                            <h3>Toyota Super Custom</h3>
+                            <div class="vehicle-specs">
+                                <span><i class="fas fa-users"></i> 10 Passengers</span>
+                                <span><i class="fas fa-snowflake"></i> A/C</span>
+                                <span><i class="fas fa-gas-pump"></i> Petrol</span>
+                                <span class="price">UGX 280,000 / day</span>
                             </div>
-                            <div class="spec-item">
-                                <i class="fas fa-gas-pump"></i>
-                                <span>Diesel</span>
+                        </li>
+                        
+                        <li class="vehicle-list-item" data-vehicle="rav4">
+                            <h3>Toyota RAV4</h3>
+                            <div class="vehicle-specs">
+                                <span><i class="fas fa-users"></i> 5 Passengers</span>
+                                <span><i class="fas fa-snowflake"></i> A/C</span>
+                                <span><i class="fas fa-gas-pump"></i> Petrol</span>
+                                <span class="price">UGX 180,000 / day</span>
                             </div>
-                        </div>
-                        <div class="vehicle-price">UGX 350,000 / day</div>
+                        </li>
+                        
+                        <li class="vehicle-list-item" data-vehicle="coaster">
+                            <h3>Toyota Coaster Bus</h3>
+                            <div class="vehicle-specs">
+                                <span><i class="fas fa-users"></i> 28 Passengers</span>
+                                <span><i class="fas fa-snowflake"></i> A/C</span>
+                                <span><i class="fas fa-gas-pump"></i> Diesel</span>
+                                <span class="price">UGX 550,000 / day</span>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <div class="book-now-container">
                         <a href="#booking" class="btn">Book Now</a>
                     </div>
                 </div>
                 
-                <div class="vehicle-card" data-vehicle-type="van">
-                    <div class="vehicle-img" style="background-image: url('images/ToyotaSuperCustom.jpeg');"></div>
-                    <div class="vehicle-details">
-                        <h3>Toyota Super Custom</h3>
-                        <div class="vehicle-specs">
-                            <div class="spec-item">
-                                <i class="fas fa-users"></i>
-                                <span>10 Passengers</span>
-                            </div>
-                            <div class="spec-item">
-                                <i class="fas fa-snowflake"></i>
-                                <span>A/C</span>
-                            </div>
-                            <div class="spec-item">
-                                <i class="fas fa-gas-pump"></i>
-                                <span>Petrol</span>
-                            </div>
-                        </div>
-                        <div class="vehicle-price">UGX 280,000 / day</div>
-                        <a href="#booking" class="btn">Book Now</a>
-                    </div>
-                </div>
-                
-                <div class="vehicle-card" data-vehicle-type="suv">
-                    <div class="vehicle-img" style="background-image: url('images/ToyotaRAV4.jpeg');"></div>
-                    <div class="vehicle-details">
-                        <h3>Toyota RAV4</h3>
-                        <div class="vehicle-specs">
-                            <div class="spec-item">
-                                <i class="fas fa-users"></i>
-                                <span>5 Passengers</span>
-                            </div>
-                            <div class="spec-item">
-                                <i class="fas fa-snowflake"></i>
-                                <span>A/C</span>
-                            </div>
-                            <div class="spec-item">
-                                <i class="fas fa-gas-pump"></i>
-                                <span>Petrol</span>
-                            </div>
-                        </div>
-                        <div class="vehicle-price">UGX 180,000 / day</div>
-                        <a href="#booking" class="btn">Book Now</a>
-                    </div>
-                </div>
-                
-                <div class="vehicle-card" data-vehicle-type="van">
-                    <div class="vehicle-img" style="background-image: url('images/ToyotaCoasterBus.jpeg');"></div>
-                    <div class="vehicle-details">
-                        <h3>Toyota Coaster Bus</h3>
-                        <div class="vehicle-specs">
-                            <div class="spec-item">
-                                <i class="fas fa-users"></i>
-                                <span>28 Passengers</span>
-                            </div>
-                            <div class="spec-item">
-                                <i class="fas fa-snowflake"></i>
-                                <span>A/C</span>
-                            </div>
-                            <div class="spec-item">
-                                <i class="fas fa-gas-pump"></i>
-                                <span>Diesel</span>
-                            </div>
-                        </div>
-                        <div class="vehicle-price">UGX 550,000 / day</div>
-                        <a href="#booking" class="btn">Book Now</a>
-                    </div>
+                <div class="fleet-image-container">
+                    <div class="fleet-image" style="background-image: url('images/fleet.jpg');"></div>
                 </div>
             </div>
         </div>
@@ -308,7 +291,7 @@
         <div class="container">
             <div class="section-title">
                 <h2>What Our Clients Say</h2>
-                <p>Trusted by NGOs, government agencies, and travelers</p>
+                <p>Trusted by NGOs, government agencies, and travelers across Uganda</p>
             </div>
             
             <div class="testimonial-grid">
@@ -321,12 +304,12 @@
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                         </div>
-                        <p>"Skahhe provided our NGO with reliable transportation for our rural health outreach program. Their vehicles are well-maintained and drivers are professional. Highly recommended!"</p>
+                        <p>"The letter is written by Miriam Kanyesigye, Human Resource Manager at ACODE, and recommends Skahhe Travel Care (U) Ltd for their transport services. The company has provided timely and quality car hire services over the past four years, demonstrating a strong commitment to excellence. ACODE strongly recommends the services offered by Skahhe Travel Care, and assistance or additional information can be obtained by contacting 031281250"</p>
                         <div class="client">
-                            <div class="client-img" style="background-image: url('images/icon.jpeg');"></div>
+                            <div class="client-initials">JN</div>
                             <div>
-                                <h4>Dr. Sarah Kintu</h4>
-                                <p>Health Initiative Uganda</p>
+                                <h4>Miriam Kanyesigye</h4>
+                                <p>Human Resource Manager - ACODE, Kampala</p>
                             </div>
                         </div>
                     </div>
@@ -341,12 +324,12 @@
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                         </div>
-                        <p>"We used Skahhe for our corporate retreat to Murchison Falls. The entire experience was seamless - from booking to the actual trip. Comfortable vehicles and knowledgeable driver guides."</p>
+                        <p>"The letter is written by Dickson Byomuhangi, Procurement & Logistics Officer at CDFU, and recommends Skahhe Travel Care Limited for their good quality services. CDFU has worked closely with Skahhe Travel Care Limited for two years, during which the company has proven to be one of CDFU's most reliable service providers, offering good quality services, ensuring timely delivery at affordable prices, and maintaining good client relations and flexibility. CDFU strongly recommends Skahhe Travel Care Limited and invites contact for any questions."</p>
                         <div class="client">
-                            <div class="client-img" style="background-image: url('images/icon.jpeg');"></div>
+                            <div class="client-initials">SK</div>
                             <div>
-                                <h4>Robert Mugisha</h4>
-                                <p>Finance Manager, Kampala</p>
+                                <h4>Dickson Byomuhangi</h4>
+                                <p>Procurement & Logistics Officer, Kampala</p>
                             </div>
                         </div>
                     </div>
@@ -359,14 +342,14 @@
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
+                            <i class="fas fa-star"></i>
                         </div>
-                        <p>"As a tourist, I was impressed with Skahhe's service. The airport pickup was punctual, the safari vehicle was perfect for game viewing, and our guide Simon was exceptional. Will definitely use them again!"</p>
+                        <p>"The letter is written by Moses Asasira, Projects Coordinator at Adroit Consult Int, and recommends Skahhe Travel Care, a company that has worked with them in the past. Skahhe Travel Care has provided Transport Services for field Research Teams and Consultants on different projects for the last 5 years, demonstrating reliability and excellence. Adroit Consult Int recommends Skahhe Travel Care to other organizations/companies for the same service, citing their good professional and safety track record."</p>
                         <div class="client">
-                            <div class="client-img" style="background-image: url('images/icon.jpeg');"></div>
+                            <div class="client-initials">RM</div>
                             <div>
-                                <h4> Johnson</h4>
-                                <p>International Tourist</p>
+                                <h4>Moses Asasira</h4>
+                                <p>Projects Coordinator, Kampala</p>
                             </div>
                         </div>
                     </div>
