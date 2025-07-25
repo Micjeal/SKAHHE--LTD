@@ -747,7 +747,15 @@ nav ul li a:hover::after {
 .contact-info .fa-envelope + div {
     flex: 1;
     min-width: 0; /* Allows the text to break and wrap */
-    word-break: break-word;
+    word-break: break-word; /* Better handling of long words */
+    overflow-wrap: anywhere; /* More reliable than break-word */
+    font-size: 0.9em;      /* Slightly smaller font for long emails */
+    line-height: 1.4;
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
 }
 
 /* Footer */
