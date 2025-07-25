@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 5000;
 // AI Provider Configuration
 const HUGGING_FACE_API = 'https://api-inference.huggingface.co/models/google/gemma-7b-it';
 const HUGGING_FACE_KEY = process.env.HUGGING_FACE_KEY || '';
-const OPENAI_ENABLED = !!process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY !== 'your_openai_api_key_here';
+const OPENAI_ENABLED = !!process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY !== 'k-proj-1f2DplEMo_6ckigUywWD5S9E2hDjlNFpAlq5uHKFAr5NtX6tCCBxf7uenTAhGFwKD_WS-6-C-RT3BlbkFJT1X1BEQ9P7OJ3yWHNRvGKZ-PS3XUgOmqBJMZAW6Up28-3l6ASdJxNxSs_qyXcZL-MN5BuqoMMA';
 
 // Log AI provider status on server start
 console.log(`AI Providers Status:`);
