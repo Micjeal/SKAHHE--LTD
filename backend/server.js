@@ -197,7 +197,12 @@ async function generateHuggingFaceResponse(prompt) {
   }
 }
 
+// Serve static files from the root directory
+const path = require('path');
+app.use(express.static(path.join(__dirname, '..')));
+
 // Start server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+const server = app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Frontend is available at http://localhost:${PORT}/index.html`);
 });
