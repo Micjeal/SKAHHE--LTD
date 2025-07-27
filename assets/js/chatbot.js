@@ -542,7 +542,7 @@ document.addEventListener('DOMContentLoaded', function() {
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    // Perform web search using our backend API with Gemini
+    // Perform web search using our backend API with OpenAI
     async function performWebSearch(query) {
         try {
             const response = await fetch('http://localhost:5000/api/search', {
@@ -551,25 +551,42 @@ document.addEventListener('DOMContentLoaded', function() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    query: query
+                    query: query,
+                    provider: 'openai'
                 })
             });
 
             const data = await response.json();
             
-            // Check for API errors
-            if (!response.ok) {
-                console.error('Search API error:', data.error || 'Unknown error');
-                return `I'm having trouble with the search right now. ${data.error || 'Please try again later.'} If the problem persists, you can contact us directly at ${contacts.email} or ${contacts.phone}.`;
+            // If we got a response, return it (server handles fallbacks)
+            if (response.ok) {
+                return data.aiResponse || data.message || "I'm not sure how to respond to that. Could you try rephrasing your question?";
             }
             
-            // Return the AI response from Gemini
-            if (data.aiResponse) {
-                return data.aiResponse;
+            // If there was an error, try to provide a helpful message
+            console.error('Search API error:', data.error || 'Unknown error');
+            
+            // Common error messages to handle gracefully
+            const lowerQuery = query.toLowerCase();
+            if (data.error && data.error.includes('quota') || data.error.includes('limit')) {
+                return "I'm currently experiencing high demand. You can contact us directly at " + 
+                       `${contacts.phone} or ${contacts.email} for immediate assistance.`;
             }
             
-            // Fallback response if no AI response is available
-            return `I couldn't process your query about "${query}" at the moment. Could you try rephrasing your question or ask something else?`;
+            // Fallback responses based on query content
+            if (lowerQuery.includes('hello') || lowerQuery.includes('hi') || lowerQuery.includes('hey')) {
+                return "Hello! Thanks for reaching out to Skahhe Travel Care. How can I assist you today?";
+            } else if (lowerQuery.includes('help')) {
+                return `I can help you with:\n- Car rental information\n- Tour packages\n- Pricing and availability\n- Booking assistance\n\nPlease let me know what you need help with!`;
+            } else if (lowerQuery.includes('contact')) {
+                return `You can reach us at:\n📞 Phone: ${contacts.phone}\n📧 Email: ${contacts.email}\n📍 Location: Kampala, Uganda`;
+            } else if (lowerQuery.includes('service') || lowerQuery.includes('offer')) {
+                return `We offer:\n🚗 Self-drive car hire\n🚙 Chauffeur services\n🌍 Tour packages\n✈️ Airport transfers\n\nWhat would you like to know more about?`;
+            }
+            
+            // Default error message
+            return `I'm having trouble connecting to our service right now. ` +
+                   `Please try again later or contact us at ${contacts.phone} for immediate assistance.`;
             
         } catch (error) {
             console.error('Search error:', error);

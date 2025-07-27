@@ -1,21 +1,22 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const axios = require('axios');
 const { generateText, generateImage } = require('./openai-utils');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// AI Provider Configuration
-const HUGGING_FACE_API = 'https://api-inference.huggingface.co/models/google/gemma-7b-it';
-const HUGGING_FACE_KEY = process.env.HUGGING_FACE_KEY || '';
-const OPENAI_ENABLED = !!process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY !== 'k-proj-1f2DplEMo_6ckigUywWD5S9E2hDjlNFpAlq5uHKFAr5NtX6tCCBxf7uenTAhGFwKD_WS-6-C-RT3BlbkFJT1X1BEQ9P7OJ3yWHNRvGKZ-PS3XUgOmqBJMZAW6Up28-3l6ASdJxNxSs_qyXcZL-MN5BuqoMMA';
+// Check if OpenAI is properly configured
+const OPENAI_ENABLED = !!process.env.OPENAI_API_KEY;
 
 // Log AI provider status on server start
-console.log(`AI Providers Status:`);
-console.log(`- Hugging Face: ${HUGGING_FACE_KEY ? 'Configured' : 'Not Configured'}`);
+console.log('AI Provider Status:');
 console.log(`- OpenAI: ${OPENAI_ENABLED ? 'Configured' : 'Not Configured'}`);
+
+if (!OPENAI_ENABLED) {
+    console.error('ERROR: OPENAI_API_KEY is not properly configured in the .env file');
+    process.exit(1);
+}
 
 // Middleware
 app.use(cors({
@@ -49,26 +50,11 @@ app.post('/api/search', async (req, res) => {
     console.log(`Processing search query with ${provider.toUpperCase()}:`, query);
     
     try {
-      let aiResponse;
-      
-      switch(provider.toLowerCase()) {
-        case 'openai':
-          if (!OPENAI_ENABLED) {
-            throw new Error('OpenAI is not properly configured');
-          }
-          aiResponse = await generateOpenAIResponse(query);
-          break;
-          
-        case 'huggingface':
-          if (!HUGGING_FACE_KEY) {
-            throw new Error('Hugging Face is not properly configured');
-          }
-          aiResponse = await generateHuggingFaceResponse(query);
-          break;
-          
-        default:
-          throw new Error('Unsupported AI provider. Please use "openai" or "huggingface"');
+      if (!OPENAI_ENABLED) {
+        throw new Error('OpenAI is not properly configured. Please check your API key in the .env file');
       }
+      
+      const aiResponse = await generateOpenAIResponse(query);
       
       console.log('Successfully generated AI response');
       
@@ -136,64 +122,65 @@ app.post('/api/generate-image', async (req, res) => {
   }
 });
 
+// Common responses for when OpenAI is unavailable
+const FALLBACK_RESPONSES = {
+  'hello': 'Hello! Thanks for reaching out to Skahhe Travel Care. How can I assist you with your travel plans today?',
+  'hi': 'Hi there! Welcome to Skahhe Travel Care. How can I help you with your travel needs?',
+  'help': 'I can help you with:\\n- Car rental information\\n- Tour packages\\n- Pricing and availability\\n- Booking assistance\\n\nPlease let me know what you need help with!',
+  'contact': 'You can reach us at:\\n📞 Phone: +256 775 346 164\\n📧 Email: info@skahhe.com\\n📍 Location: Kampala, Uganda',
+  'services': 'We offer:\\n🚗 Self-drive car hire\\n🚙 Chauffeur services\\n🌍 Tour packages\\n✈️ Airport transfers\\n\nWhat would you like to know more about?'
+};
+
+// Function to find the best matching fallback response
+function getFallbackResponse(prompt) {
+  const lowerPrompt = prompt.toLowerCase();
+  
+  // Check for exact matches first
+  for (const [key, response] of Object.entries(FALLBACK_RESPONSES)) {
+    if (lowerPrompt.includes(key)) {
+      return response;
+    }
+  }
+  
+  // Check for partial matches
+  for (const [key, response] of Object.entries(FALLBACK_RESPONSES)) {
+    const words = key.split(' ');
+    if (words.some(word => lowerPrompt.includes(word))) {
+      return response;
+    }
+  }
+  
+  // Default fallback
+  return 'I apologize, but I\'m having trouble connecting to our AI service at the moment. ' +
+         'Please try again later or contact us directly at info@skahhe.com for assistance.';
+}
+
 // Function to generate AI response using OpenAI
 async function generateOpenAIResponse(prompt) {
   try {
-    console.log('Sending request to OpenAI API...');
     const response = await generateText(prompt, {
       model: 'gpt-3.5-turbo',
-      max_tokens: 300,
-      temperature: 0.7
+      temperature: 0.7,
+      max_tokens: 200
     });
     return response;
   } catch (error) {
     console.error('OpenAI API Error:', error);
-    throw error;
-  }
-}
-
-// Function to generate AI response using Hugging Face's free model
-async function generateHuggingFaceResponse(prompt) {
-  try {
-    console.log('Sending request to Hugging Face API...');
     
-    const response = await axios.post(
-      HUGGING_FACE_API,
-      {
-        inputs: `You are a helpful assistant for Skahhe Travel Care. Provide a concise and accurate response to the following query: "${prompt}"`,
-        parameters: {
-          max_new_tokens: 200,
-          temperature: 0.7
-        }
-      },
-      {
-        headers: {
-          'Authorization': `Bearer ${HUGGING_FACE_KEY}`,
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-
-    console.log('Received response from Hugging Face API');
-    
-    // Extract and return the generated text
-    const generatedText = response.data[0]?.generated_text || 'I apologize, but I am unable to generate a response at the moment.';
-    return generatedText;
-    
-  } catch (error) {
-    console.error('AI Generation Error Details:', {
-      message: error.message,
-      status: error.response?.status,
-      data: error.response?.data,
-      stack: error.stack
-    });
-    
-    // Provide a fallback response
-    if (error.response?.status === 503) {
-      return 'The AI service is currently loading. Please try again in a few moments.';
+    // If we hit rate limits or other errors, use fallback
+    if (error.status === 429 || error.status === 500) {
+      console.log('Using fallback response due to API error');
+      return getFallbackResponse(prompt);
     }
     
-    return 'I apologize, but I am having trouble connecting to the AI service at the moment. Please try again later.';
+    // For other errors, provide a helpful message
+    if (error.status === 401) {
+      throw new Error('Invalid OpenAI API key. Please check your configuration in the .env file');
+    } else if (error.response?.data?.error?.message) {
+      return getFallbackResponse(prompt);
+    } else {
+      return getFallbackResponse(prompt);
+    }
   }
 }
 
