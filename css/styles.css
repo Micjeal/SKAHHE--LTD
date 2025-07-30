@@ -804,14 +804,94 @@ nav ul li a:hover::after {
 .contact-info li {
     display: flex;
     align-items: flex-start;
-    margin-bottom: 15px;
-    line-height: 1.5;
+    margin-bottom: 12px;
+    line-height: 1.4;
+    transition: all 0.3s ease;
+}
+
+.contact-info li:hover {
+    transform: translateX(5px);
 }
 
 .contact-info i {
-    margin-right: 10px;
     color: var(--primary-green);
-    margin-top: 4px;
+    margin-right: 10px;
+    margin-top: 2px;
+    min-width: 18px;
+    text-align: center;
+    font-size: 1em;
+}
+
+.contact-info div {
+    flex: 1;
+    word-break: break-word;
+}
+
+.contact-info strong {
+    display: block;
+    color: var(--white);
+    margin-bottom: 3px;
+    font-size: 1.05em;
+}
+
+.contact-info a {
+    color: #bbb;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: inline-block;
+    width: 100%;
+}
+
+.contact-info a:hover {
+    color: var(--white);
+    text-decoration: underline;
+}
+
+/* Responsive adjustments for contact info */
+@media (max-width: 992px) {
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+    
+    .footer-col {
+        min-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .contact-info li {
+        margin-bottom: 15px;
+    }
+    
+    .contact-info i {
+        margin-right: 12px;
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-col {
+        padding: 0 10px;
+    }
+    
+    .contact-info li {
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+    
+    .contact-info i {
+        margin-bottom: 5px;
+    }
+    
+    .contact-info strong {
+        margin-bottom: 5px;
+    }
 }
 
 .contact-info a {
