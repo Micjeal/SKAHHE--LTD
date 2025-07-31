@@ -28,17 +28,102 @@
             <div class="mobile-menu-overlay"></div>
             
             <!-- Mobile Menu -->
-            <div class="mobile-menu" id="mobileMenu">
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#about">About Us</a></li>
-                    <li><a href="#fleet">Our Fleet</a></li>
-                    <li><a href="#tours">Tours</a></li>
-                    <li><a href="#testimonials">Testimonials</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </div>
+            <style>
+    /* Mobile Menu Styles */
+    .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.95);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .mobile-menu.active {
+        display: flex;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .mobile-menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+        width: 100%;
+    }
+
+    .mobile-menu li {
+        margin: 1.5rem 0;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.3s ease;
+    }
+
+    .mobile-menu.active li {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .mobile-menu li:nth-child(1) { transition-delay: 0.1s; }
+    .mobile-menu li:nth-child(2) { transition-delay: 0.15s; }
+    .mobile-menu li:nth-child(3) { transition-delay: 0.2s; }
+    .mobile-menu li:nth-child(4) { transition-delay: 0.25s; }
+    .mobile-menu li:nth-child(5) { transition-delay: 0.3s; }
+    .mobile-menu li:nth-child(6) { transition-delay: 0.35s; }
+    .mobile-menu li:nth-child(7) { transition-delay: 0.4s; }
+
+    .mobile-menu a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 1.5rem;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        display: inline-block;
+        transition: color 0.3s ease;
+        position: relative;
+    }
+
+    .mobile-menu a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 50%;
+        background-color: #fff;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+    }
+
+    .mobile-menu a:hover {
+        color: #4CAF50;
+    }
+
+    .mobile-menu a:hover::after {
+        width: 80%;
+        background-color: #4CAF50;
+    }
+</style>
+
+<div class="mobile-menu" id="mobileMenu">
+    <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#fleet">Our Fleet</a></li>
+        <li><a href="#tours">Tours</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</div>
             
             <!-- Desktop Navigation -->
             <nav class="desktop-nav">
@@ -681,13 +766,11 @@ Working with SKahhe has been a breeze. Their competitive pricing, combined with 
                     <p>Your trusted partner for premium transportation and tour experiences Across East Africa Countries. </p>
                     <div class="contact-info phone-number">
                         <div class="phone-container">
-                            <i class="fas fa-phone"></i>
                             <a href="tel:+256775346164">+256 775 346 164</a>
+                            <a href="https://wa.me/256775346164" target="_blank" rel="noopener noreferrer" class="whatsapp-button">
+                                Chat on WhatsApp
+                            </a>
                         </div>
-                        <a href="https://wa.me/256775346164" target="_blank" rel="noopener noreferrer" class="whatsapp-link" title="Chat on WhatsApp">
-                            <i class="fab fa-whatsapp"></i>
-                            <span class="sr-only">Chat on WhatsApp</span>
-                        </a>
                     </div>
                     <div class="social-links">
                         <a href="https://www.facebook.com/skahhetravelcare" target="_blank" rel="noopener noreferrer" title="Facebook"><i class="fab fa-facebook-f"></i></a>
@@ -733,16 +816,19 @@ Working with SKahhe has been a breeze. Their competitive pricing, combined with 
                             </div>
                         </li>
                         <li>
-                            <i class="fas fa-phone-alt"></i>
-                            <div>
-                                <a href="tel:+256775346164">+256 775 346 164</a>
-                                <a href="https://wa.me/256775346164" target="_blank" rel="noopener noreferrer" class="whatsapp-link" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                            <div class="phone-container">
+                                <i class="fas fa-phone"></i>
+                                <a href="tel:+256775346164" class="phone-number">+256 775 346 164</a>
+                                <a href="https://wa.me/256775346164" target="_blank" rel="noopener noreferrer" class="whatsapp-button">
+                                    Chat on WhatsApp
+                                </a>
                             </div>
                         </li>
                         <li>
                             <i class="fas fa-envelope"></i>
                             <div>skahhe@gmail.com</div>
                         </li>
+                       
                     </ul>
                 </div>
                 
