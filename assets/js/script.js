@@ -1,28 +1,59 @@
 // Mobile Menu Toggle
-const menuBtn = document.getElementById('menuBtn');
-const navMenu = document.getElementById('navMenu');
-
-menuBtn.addEventListener('click', () => {
-    navMenu.classList.toggle('show');
+document.addEventListener('DOMContentLoaded', function() {
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+    const mobileMenuLinks = document.querySelectorAll('.mobile-menu a');
+    const menuIcon = menuBtn.querySelector('i');
     
-    // Change menu icon
-    const icon = menuBtn.querySelector('i');
-    if (navMenu.classList.contains('show')) {
-        icon.classList.remove('fa-bars');
-        icon.classList.add('fa-times');
-    } else {
-        icon.classList.remove('fa-times');
-        icon.classList.add('fa-bars');
+    // Toggle mobile menu
+    function toggleMobileMenu() {
+        const isExpanded = menuBtn.getAttribute('aria-expanded') === 'true';
+        menuBtn.setAttribute('aria-expanded', !isExpanded);
+        mobileMenu.classList.toggle('active');
+        mobileMenuOverlay.classList.toggle('active');
+        document.body.style.overflow = isExpanded ? 'auto' : 'hidden';
+        
+        // Toggle menu icon
+        if (isExpanded) {
+            menuIcon.classList.remove('fa-times');
+            menuIcon.classList.add('fa-bars');
+        } else {
+            menuIcon.classList.remove('fa-bars');
+            menuIcon.classList.add('fa-times');
+        }
     }
-});
-
-// Close menu when clicking a link
-document.querySelectorAll('#navMenu a').forEach(link => {
-    link.addEventListener('click', () => {
-        navMenu.classList.remove('show');
-        menuBtn.querySelector('i').classList.remove('fa-times');
-        menuBtn.querySelector('i').classList.add('fa-bars');
+    
+    // Event listeners
+    menuBtn.addEventListener('click', toggleMobileMenu);
+    
+    // Close menu when clicking overlay
+    mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
+    
+    // Close menu when clicking a link
+    mobileMenuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (mobileMenu.classList.contains('active')) {
+                toggleMobileMenu();
+            }
+        });
     });
+    
+    // Close menu when pressing Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+            toggleMobileMenu();
+        }
+    });
+    
+    // Handle window resize
+    function handleResize() {
+        if (window.innerWidth > 992 && mobileMenu.classList.contains('active')) {
+            toggleMobileMenu();
+        }
+    }
+    
+    window.addEventListener('resize', handleResize);
 });
 
 // Filter buttons

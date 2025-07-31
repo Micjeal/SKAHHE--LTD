@@ -20,11 +20,28 @@
                 <div class="logo-text">Skahhe <span>Travel Care</span></div>
             </div>
             
-            <button class="mobile-menu-btn" id="menuBtn" aria-label="Toggle navigation menu">
+            <button class="mobile-menu-btn" id="menuBtn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobileMenu">
                 <i class="fas fa-bars" aria-hidden="true"></i>
             </button>
             
-            <nav>
+            <!-- Mobile Menu Overlay -->
+            <div class="mobile-menu-overlay"></div>
+            
+            <!-- Mobile Menu -->
+            <div class="mobile-menu" id="mobileMenu">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#fleet">Our Fleet</a></li>
+                    <li><a href="#tours">Tours</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <nav class="desktop-nav">
                 <ul id="navMenu">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#services">Services</a></li>
