@@ -1,3 +1,5 @@
+![Alt](https://repobeats.axiom.co/api/embed/123ab54ea5c58319bd364b997abbbdf52acf8393.svg "Repobeats analytics image")
+
 # SKAHHE Travel Care Uganda Ltd
 
 ## Project Overview
